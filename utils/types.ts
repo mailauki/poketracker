@@ -1,3 +1,4 @@
+import { UUID } from "crypto"
 import { Key } from "react"
 
 export type Dex = {
@@ -11,8 +12,7 @@ export type Dex = {
   number: string,
   hash: string,
   username: string,
-  user_id: Key,
-  // captured_pokemon: [{ number: string }]
+  user_id: UUID,
 }
 
 export type Mon = {
@@ -46,4 +46,13 @@ export type Species = {
   ]
 }
 
-export type Sprites = {}
+export type Sprites = {
+  back_default: string | null
+  back_female: string | null
+  back_shiny: string | null
+  back_shiny_female: null
+  front_default: string
+  front_female: string | null
+  front_shiny: string | null
+  front_shiny_female: string | null
+}

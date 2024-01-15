@@ -1,0 +1,28 @@
+'use client'
+
+import { Species, Sprites } from "@/utils/types"
+import Image from "next/image"
+import { Key, useEffect, useState } from "react"
+
+export default function Sprite({ id }: { id: Key }) {
+  const [sprites, setSprites] = useState<Sprites>()
+
+  useEffect(() => {
+    // console.log(species.varieties[0].pokemon.url)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+    .then((res) => res.json())
+    .then((data) => setSprites(data.sprites))
+  }, [])
+
+  // console.log(sprites)
+  return (
+    <>
+      <img
+        src={sprites?.front_default || ""}
+        width={60}
+        height={60}
+        alt={`pokemon #${id}`}
+      />
+    </>
+  )
+}

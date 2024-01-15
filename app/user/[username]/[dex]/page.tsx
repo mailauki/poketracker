@@ -30,13 +30,13 @@ export default async function Page({
   `)
   .eq('username', username)
   .eq('hash', dex)
-  .returns<Dex>()
+  // .returns<Dex>()
   .single()
 
   if (!pokedex) {
     notFound()
   }
-  
+
   const { data: capturedPokemon } = await supabase
   .from('captured_pokemon')
   .select()
@@ -46,7 +46,7 @@ export default async function Page({
 
   return (
     <Pokedex
-      serverPokedex={pokedex!}
+      serverPokedex={pokedex}
       serverCapturedPokemon={capturedPokemon!}
     />
   )
