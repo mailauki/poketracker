@@ -7,18 +7,9 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
-  // const [pokedexes, setPokedexes] = useState<any[] | null>(null)
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
   const supabase = createClient()
   const pathname = usePathname()
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await supabase.from('pokedexes').select()
-  //     setPokedexes(data)
-  //   }
-  //   getData()
-  // }, [])
 
   useEffect(() => {
     setPokedexes(serverPokedexes)
@@ -48,7 +39,6 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
     }
   }, [supabase, setPokedexes, pokedexes])
 
-  // return <pre>{JSON.stringify(pokedexes, null, 2)}</pre>
   return (
     <>
       {pokedexes.map((pokedex) => (

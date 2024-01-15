@@ -1,12 +1,13 @@
 'use client'
 
 import { createClient } from '@/utils/supabase/client'
-import { Dex } from '@/utils/types'
+import { Dex, Mon } from '@/utils/types'
 import { useEffect, useState } from 'react'
 
 export default function Pokedex({ serverPokedex }: { serverPokedex: Dex }) {
-  const [pokedex, setPokedex] = useState(serverPokedex)
   const supabase = createClient()
+  const [pokedex, setPokedex] = useState(serverPokedex)
+  const [pokemonEntries, setPokemonEntries] = useState([])
 
   useEffect(() => {
     setPokedex(serverPokedex)
@@ -34,14 +35,21 @@ export default function Pokedex({ serverPokedex }: { serverPokedex: Dex }) {
     }
   }, [supabase, setPokedex, pokedex])
 
-  return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
-  // return (
-  //   <>
-  //     {pokedexes.map((pokedex) => (
-  //       <div key={pokedex.id}>
-  //         <Link href={`${pathname}/${pokedex.hash}`}>{pokedex.title}</Link>
-  //       </div>
-  //     ))}
-  //   </>
-  // )
+  useEffect(() => {
+    fetch(`https://pokeapi.co/api/v2/pokedex/${pokedex.number}`)
+    .then((res) => res.json())
+    .then((data) => setPokemonEntries(data.pokemon_entries))
+  }, [pokedex])
+
+  // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
+  // return <pre>{JSON.stringify(pokemonEntries, null, 2)}</pre>
+  return (
+    <>
+      {pokemonEntries.map((pokemon: Mon) => (
+        <div key={pokedex.id}>
+          <p>{pokemon.entry_number} - {pokemon.pokemon_species.name}</p>
+        </div>
+      ))}
+    </>
+  )
 }

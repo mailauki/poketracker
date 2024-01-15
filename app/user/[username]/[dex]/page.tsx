@@ -37,6 +37,5 @@ export default async function Page({
     notFound()
   }
 
-  // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
   return <Pokedex serverPokedex={pokedex} />
 }

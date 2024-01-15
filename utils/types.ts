@@ -13,3 +13,11 @@ export type Dex = {
   username: string,
   user_id: Key
 }
+
+export type Mon = {
+  entry_number: number,
+  pokemon_species: {
+    name: string,
+    url: string
+  }
+}
