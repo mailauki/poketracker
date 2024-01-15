@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
+import { useParams, usePathname } from 'next/navigation'
 import { Key, useEffect, useState } from 'react'
 
 type Pokedex = {
@@ -20,6 +21,7 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Pokede
   // const [pokedexes, setPokedexes] = useState<any[] | null>(null)
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
   const supabase = createClient()
+  const pathname = usePathname()
 
   // useEffect(() => {
   //   const getData = async () => {
@@ -39,6 +41,9 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Pokede
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pokedexes' }, (payload) =>
         setPokedexes((pokedexes) => [...pokedexes, payload.new as Pokedex])
       )
+      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pokedexes' }, (payload) =>
+        setPokedexes((pokedexes) => pokedexes.filter((pokedex) => pokedex.id !== payload.old.id))
+      )
       .subscribe()
 
     return () => {
@@ -51,7 +56,7 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Pokede
     <>
       {pokedexes.map((pokedex) => (
         <div key={pokedex.id}>
-          <Link href={`/${pokedex.hash}`}>{pokedex.title}</Link>
+          <Link href={`${pathname}/${pokedex.hash}`}>{pokedex.title}</Link>
         </div>
       ))}
     </>
