@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Pokedex from './Pokedex'
-import { Dex } from '@/utils/types'
+import { Captured, Dex } from '@/utils/types'
 
 export default async function Page({
   params: { username, dex }
@@ -36,6 +36,19 @@ export default async function Page({
   if (!pokedex) {
     notFound()
   }
+  
+  const { data: capturedPokemon } = await supabase
+  .from('captured_pokemon')
+  .select()
+  .eq('pokedex', pokedex.id)
+  .eq('user_id', pokedex.user_id)
+  .returns<Captured[]>()
 
-  return <Pokedex serverPokedex={pokedex} />
+  return (
+    <Pokedex
+      serverPokedex={pokedex!}
+      serverCapturedPokemon={capturedPokemon!}
+    />
+  )
+  // return <pre>{JSON.stringify(capturedPokemon, null, 2)}</pre>
 }

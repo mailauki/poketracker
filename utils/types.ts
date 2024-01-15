@@ -11,7 +11,8 @@ export type Dex = {
   number: string,
   hash: string,
   username: string,
-  user_id: Key
+  user_id: Key,
+  // captured_pokemon: [{ number: string }]
 }
 
 export type Mon = {
@@ -21,3 +22,28 @@ export type Mon = {
     url: string
   }
 }
+
+export type Captured = {
+  id: Key,
+  number: string,
+  pokedex: number,
+  user_id: string
+}
+
+export type Species = {
+  id: Key,
+  evolution_chain: {
+    url: string
+  },
+  evolves_from_species: any | null,
+  varieties: [
+    {
+      pokemon: {
+        name: string,
+        url: string
+      }
+    }
+  ]
+}
+
+export type Sprites = {}

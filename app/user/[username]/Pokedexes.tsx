@@ -27,7 +27,7 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
       )
       .on(
         'postgres_changes',
-        { event: 'DELETE', schema: 'public', table: 'pokedexes' }, 
+        { event: 'DELETE', schema: 'public', table: 'pokedexes' },
         (payload) => {
           setPokedexes((pokedexes) => pokedexes.filter((pokedex) => pokedex.id !== payload.old.id))
         }
