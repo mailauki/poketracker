@@ -10,7 +10,7 @@ export default async function Page() {
   const { data: profile } = await supabase
   .from('profiles')
   .select()
-  .eq('id', user!.id)
+  .eq('id', user?.id)
   .single()
 
   // const { data: { session } } = await supabase.auth.getSession()
