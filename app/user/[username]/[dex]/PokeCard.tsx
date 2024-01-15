@@ -44,11 +44,34 @@ export default function PokeCard({
     // console.log({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: session?.user.id })
   }
 
+  const handleRemovePokemon = async () => {
+    // 'use server'
+    const supabase = createClient()
+
+    // const { data: pokemon } = await supabase
+    // .from('captured_pokemon')
+    // .select(`id`)
+    // .match({ number: pokemonSpecies!.id, pokedex: pokedex?.id, user_id: session?.user.id })
+    // .returns<Captured>()
+    // .single()
+  
+    const { error } = await supabase
+    .from('captured_pokemon')
+    .delete()
+    .match({ id: isCaptured?.id, user_id: session?.user.id })
+  
+    const { data } = await supabase.rpc('decrement_pokedexes', { row_id: pokedex.id })
+
+    // console.log(isCaptured?.id)
+
+    // console.log({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: session?.user.id })
+  }
+
   return (
     <button
       className="py-2 px-3 flex flex-col items-center justify-between rounded-md no-underline hover:bg-btn-background-hover border w-36 h-36"
       style={{ borderColor: isCaptured ? "red" : "inherit" }}
-      onClick={handleCapturePokemon}
+      onClick={isCaptured ? handleRemovePokemon : handleCapturePokemon}
       disabled={!session}
     >
       <p>{pokemon.entry_number} - {pokemon.pokemon_species.name}</p>
