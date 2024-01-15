@@ -1,6 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import Pokedex from './Pokedex'
+import { Dex } from '@/utils/types'
 
 export default async function Page({
   params: { username, dex }
@@ -21,11 +24,19 @@ export default async function Page({
     captured,
     entries,
     number,
-    hash
+    hash,
+    username,
+    user_id
   `)
   .eq('username', username)
   .eq('hash', dex)
+  .returns<Dex>()
   .single()
 
-  return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
+  if (!pokedex) {
+    notFound()
+  }
+
+  // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
+  return <Pokedex serverPokedex={pokedex} />
 }

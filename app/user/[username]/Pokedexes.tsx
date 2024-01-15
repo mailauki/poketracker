@@ -1,23 +1,12 @@
 'use client'
 
 import { createClient } from '@/utils/supabase/client'
+import { Dex } from '@/utils/types'
 import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
-import { Key, useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-type Pokedex = {
-  id: Key,
-  title: string,
-  game: string,
-  type: string,
-  shiny: boolean,
-  captured: [{ number: string }],
-  entries: number,
-  number: string,
-  hash: string
-}
-
-export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Pokedex[] }) {
+export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
   // const [pokedexes, setPokedexes] = useState<any[] | null>(null)
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
   const supabase = createClient()
@@ -37,12 +26,20 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Pokede
 
   useEffect(() => {
     const channel = supabase
-      .channel('*')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'pokedexes' }, (payload) =>
-        setPokedexes((pokedexes) => [...pokedexes, payload.new as Pokedex])
+      .channel('realtime pokedexes')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'pokedexes' },
+        (payload) => {
+          setPokedexes((pokedexes) => [...pokedexes, payload.new as Dex])
+        }
       )
-      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'pokedexes' }, (payload) =>
-        setPokedexes((pokedexes) => pokedexes.filter((pokedex) => pokedex.id !== payload.old.id))
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'pokedexes' }, 
+        (payload) => {
+          setPokedexes((pokedexes) => pokedexes.filter((pokedex) => pokedex.id !== payload.old.id))
+        }
       )
       .subscribe()
 
