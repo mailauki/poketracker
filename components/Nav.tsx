@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import AuthButton from './AuthButton'
+import DeployButton from './DeployButton'
 
 export default async function Nav() {
   const cookieStore = cookies()
@@ -16,7 +17,7 @@ export default async function Nav() {
   .single()
 
   return (
-    <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+    <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 sticky top-0 bg-background">
       <div className="w-full max-w-4xl flex items-center justify-between p-3 text-sm gap-2">
         <div className="flex items-center gap-4">
           <Link
@@ -42,6 +43,7 @@ export default async function Nav() {
             </>
           }
         </div>
+        {/* <DeployButton /> */}
         <AuthButton />
       </div>
     </nav>
