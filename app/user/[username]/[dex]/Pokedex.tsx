@@ -2,14 +2,18 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { Captured, Dex, Mon } from '@/utils/types'
-import { useEffect, useState } from 'react'
+import { Key, useEffect, useState } from 'react'
 import PokeCard from './PokeCard'
+import { Session } from '@supabase/supabase-js'
+import Progress from '../Progress'
+import { adjustName } from '@/utils/helpers'
 
 export default function Pokedex({
-  serverPokedex, serverCapturedPokemon
+  serverPokedex, serverCapturedPokemon, session
 }: {
   serverPokedex: Dex,
-  serverCapturedPokemon: Captured[]
+  serverCapturedPokemon: Captured[],
+  session: Session | null
 }) {
   const supabase = createClient()
   const [pokedex, setPokedex] = useState(serverPokedex)
@@ -92,11 +96,41 @@ export default function Pokedex({
   //   // getData()
   // }, [])
 
+  const handleCapturePokemon = async ({ number, pokedex }: { number: Key, pokedex: Key }) => {
+    // 'use server'
+
+    // const number = formData.get('number') as number
+    // const pokedex = formData.get('pokedex') as number
+    // const cookieStore = cookies()
+    const supabase = createClient()
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+    // if (error) {
+    //   return redirect('/login?message=Could not authenticate user')
+    // }
+
+    return console.log({ number, pokedex, user_id: user?.id })
+  }
 
   // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
   // return <pre>{JSON.stringify(pokemonEntries, null, 2)}</pre>
   return (
-    <div className="w-full max-w-4xl flex items-center justify-between p-3 my-6 gap-2">
+    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
+      <div className="w-full flex flex-col items-center gap-4">
+        <div className="w-full flex items-center justify-between">
+          <h1 className="text-xl">{pokedex.title}</h1>
+          <div className="flex gap-2">
+            <p className="w-30 py-2 px-3 flex text-sm rounded-full bg-btn-background">
+              {pokedex.type}
+            </p>
+            <p className="w-30 py-2 px-3 flex text-sm rounded-full bg-btn-background">
+              {adjustName(pokedex.game)}
+            </p>
+          </div>
+        </div>
+        <Progress captured={pokedex.captured} entries={pokedex.entries} />
+      </div>
       <div className="flex flex-wrap items-center justify-center gap-4">
         {pokemonEntries.map((pokemon: Mon) => (
           <PokeCard
@@ -104,6 +138,8 @@ export default function Pokedex({
             pokemon={pokemon}
             pokedex={pokedex}
             captured={capturedPokemon}
+            // handleCapturePokemon={handleCapturePokemon}
+            session={session}
           />
         ))}
       </div>

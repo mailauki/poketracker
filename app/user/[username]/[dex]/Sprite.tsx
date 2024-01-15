@@ -8,13 +8,11 @@ export default function Sprite({ id, shiny }: { id: Key, shiny: boolean }) {
   const [sprites, setSprites] = useState<Sprites>()
 
   useEffect(() => {
-    // console.log(species.varieties[0].pokemon.url)
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
     .then((res) => res.json())
     .then((data) => setSprites(data.sprites))
   }, [])
 
-  // console.log(sprites)
   return sprites && (
     <>
       {shiny ? (

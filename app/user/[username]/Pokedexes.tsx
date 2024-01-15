@@ -5,7 +5,7 @@ import { Dex } from '@/utils/types'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Progress from '../Progress'
+import Progress from './Progress'
 
 export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
   const [pokedexes, setPokedexes] = useState(serverPokedexes)

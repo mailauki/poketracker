@@ -13,6 +13,8 @@ export default async function Page({
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
 
+  const { data: { session } } = await supabase.auth.getSession()
+
   const { data: pokedex } = await supabase
   .from('pokedexes')
   .select(`
@@ -48,6 +50,7 @@ export default async function Page({
     <Pokedex
       serverPokedex={pokedex}
       serverCapturedPokemon={capturedPokemon!}
+      session={session}
     />
   )
   // return <pre>{JSON.stringify(capturedPokemon, null, 2)}</pre>

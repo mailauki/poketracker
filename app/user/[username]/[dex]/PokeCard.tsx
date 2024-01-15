@@ -1,17 +1,24 @@
 'use client'
 
 import { Captured, Dex, Mon, Species } from "@/utils/types"
-import { useEffect, useState } from "react"
+import { Key, useEffect, useState } from "react"
 import Sprite from "./Sprite"
+// import { cookies } from "next/headers"
+import { createClient } from "@/utils/supabase/client"
+import { Session } from '@supabase/supabase-js'
+
 
 export default function PokeCard({
-  pokemon, pokedex, captured
+  pokemon, pokedex, captured, session
 }: {
   pokemon: Mon,
   pokedex: Dex,
-  captured: Captured[]
+  captured: Captured[],
+  // handleCapturePokemon: ({ number, pokedex }: { number: Key, pokedex: Key }) => void
+  session: Session | null
 }) {
   const [pokemonSpecies, setPokemonSpecies] = useState<Species | null>(null)
+  let isCaptured = captured.find(mon => mon.number == pokemonSpecies?.id)
 
   useEffect(() => {
     fetch(pokemon.pokemon_species.url)
@@ -19,15 +26,30 @@ export default function PokeCard({
     .then((data) => setPokemonSpecies(data))
   }, [])
 
-  function handleCapturePokemon() {
-    console.log({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: null })
+  const handleCapturePokemon = async () => {
+    // 'use server'
+    const supabase = createClient()
+
+    const { data: pokemon } = await supabase
+    .from('captured_pokemon')
+    .insert({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: session?.user.id })
+    .select()
+    .returns<Captured>()
+    .single()
+  
+    const { data } = await supabase.rpc('increment_pokedexes', { row_id: pokedex.id })
+  
+    console.log({pokemon})
+
+    // console.log({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: session?.user.id })
   }
 
   return (
     <button
       className="py-2 px-3 flex flex-col items-center justify-between rounded-md no-underline hover:bg-btn-background-hover border w-36 h-36"
-      style={{ borderColor: captured.find(mon => mon.number == pokemonSpecies?.id) ? "red" : "inherit" }}
+      style={{ borderColor: isCaptured ? "red" : "inherit" }}
       onClick={handleCapturePokemon}
+      disabled={!session}
     >
       <p>{pokemon.entry_number} - {pokemon.pokemon_species.name}</p>
       {pokemonSpecies && <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} />}
