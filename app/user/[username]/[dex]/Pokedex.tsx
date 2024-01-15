@@ -96,18 +96,17 @@ export default function Pokedex({
   // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
   // return <pre>{JSON.stringify(pokemonEntries, null, 2)}</pre>
   return (
-    <>
-      {pokemonEntries.map((pokemon: Mon) => (
-        // <div key={pokemon.entry_number}>
-        //   <p>{pokemon.entry_number} - {pokemon.pokemon_species.name}</p>
-        // </div>
-        <PokeCard
-          key={pokemon.entry_number}
-          pokemon={pokemon}
-          pokedex={pokedex}
-          captured={capturedPokemon}
-        />
-      ))}
-    </>
+    <div className="w-full max-w-4xl flex items-center justify-between p-3 my-6 gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        {pokemonEntries.map((pokemon: Mon) => (
+          <PokeCard
+            key={pokemon.entry_number}
+            pokemon={pokemon}
+            pokedex={pokedex}
+            captured={capturedPokemon}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

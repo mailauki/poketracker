@@ -5,6 +5,7 @@ import { Dex } from '@/utils/types'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Progress from '../Progress'
 
 export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
@@ -40,12 +41,20 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
   }, [supabase, setPokedexes, pokedexes])
 
   return (
-    <>
+    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
       {pokedexes.map((pokedex) => (
-        <div key={pokedex.id}>
-          <Link href={`${pathname}/${pokedex.hash}`}>{pokedex.title}</Link>
-        </div>
+        <Link
+          key={pokedex.id}
+          href={`${pathname}/${pokedex.hash}`}
+          className="py-2 px-3 flex flex-col items-center rounded-md no-underline hover:bg-btn-background-hover border gap-4 w-full"
+        >
+          {pokedex.title}
+          <Progress
+            captured={pokedex.captured}
+            entries={pokedex.entries}
+          />
+        </Link>
       ))}
-    </>
+    </div>
   )
 }
