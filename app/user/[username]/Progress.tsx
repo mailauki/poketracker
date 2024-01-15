@@ -17,7 +17,7 @@ export default function Progress({ captured, entries } : { captured: number, ent
       <div className="w-full h-8 flex items-center justify-center text-sm text-center absolute">
         <p><b>{progress}%</b> DONE! (<b>{captured}</b> CAUGHT, <b>{entries-captured}</b> TO GO)</p>
       </div>
-      <div className="h-8 bg-blue-500 dark:bg-blue-700" style={{ width: `${50}%`}}></div>
+      <div className="h-8 bg-blue-600 dark:bg-blue-500" style={{ width: `${progress}%`}}></div>
     </div>
   )
 }

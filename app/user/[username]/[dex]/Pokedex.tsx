@@ -7,6 +7,7 @@ import PokeCard from './PokeCard'
 import { Session } from '@supabase/supabase-js'
 import Progress from '../Progress'
 import { adjustName } from '@/utils/helpers'
+import PokedexTabs from './PokedexTabs'
 
 export default function Pokedex({
   serverPokedex, serverCapturedPokemon, session
@@ -77,42 +78,6 @@ export default function Pokedex({
     .then((data) => setPokemonEntries(data.pokemon_entries))
   }, [pokedex])
 
-
-  // console.log(pokedex.captured_pokemon)
-
-  // useEffect(() => {
-  //   // fetch(`https://pokeapi.co/api/v2/pokedex/${pokedex.number}`)
-  //   // .then((res) => res.json())
-  //   // .then((data) => console.log(data))
-  //   const getData = async () => {
-  //     const { data } = await supabase
-  //     .from('captured_pokemon')
-  //     .select()
-  //     .eq('pokedex', pokedex.id)
-
-  //     // console.log(data.number)
-  //   }
-
-  //   // getData()
-  // }, [])
-
-  const handleCapturePokemon = async ({ number, pokedex }: { number: Key, pokedex: Key }) => {
-    // 'use server'
-
-    // const number = formData.get('number') as number
-    // const pokedex = formData.get('pokedex') as number
-    // const cookieStore = cookies()
-    const supabase = createClient()
-
-    const { data: { user } } = await supabase.auth.getUser()
-
-    // if (error) {
-    //   return redirect('/login?message=Could not authenticate user')
-    // }
-
-    return console.log({ number, pokedex, user_id: user?.id })
-  }
-
   // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
   // return <pre>{JSON.stringify(pokemonEntries, null, 2)}</pre>
   return (
@@ -131,6 +96,7 @@ export default function Pokedex({
         </div>
         <Progress captured={pokedex.captured} entries={pokedex.entries} />
       </div>
+      <PokedexTabs pokedex={pokedex} />
       <div className="flex flex-wrap items-center justify-center gap-4">
         {pokemonEntries.map((pokemon: Mon) => (
           <PokeCard
@@ -138,7 +104,6 @@ export default function Pokedex({
             pokemon={pokemon}
             pokedex={pokedex}
             captured={capturedPokemon}
-            // handleCapturePokemon={handleCapturePokemon}
             session={session}
           />
         ))}

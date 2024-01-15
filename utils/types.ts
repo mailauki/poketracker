@@ -56,3 +56,9 @@ export type Sprites = {
   front_shiny: string | null
   front_shiny_female: string | null
 }
+
+export type PokeTab = {
+  id: Key,
+  name: string,
+  entries: number
+}
