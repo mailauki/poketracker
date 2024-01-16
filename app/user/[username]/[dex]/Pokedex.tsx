@@ -85,25 +85,27 @@ export default function Pokedex({
     setActive(id)
   }
 
-  // return <pre>{JSON.stringify(pokedex, null, 2)}</pre>
-  // return <pre>{JSON.stringify(pokemonEntries, null, 2)}</pre>
   return (
     <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
-      {/* <div className="w-full flex flex-col items-center gap-4">
-        <div className="w-full flex items-center justify-between">
-          <h1 className="text-xl">{pokedex.title}</h1>
-          <div className="flex items-center gap-2">
-            {pokedex.shiny && <ShinyIcon />}
-            <p className="w-30 py-2 px-3 flex text-sm rounded-full bg-btn-background">
-              {pokedex.type}
-            </p>
-            <p className="w-30 py-2 px-3 flex text-sm rounded-full bg-btn-background">
-              {adjustName(pokedex.game)}
-            </p>
+      <div className="w-full flex justify-start">
+        <fieldset className="">
+          <legend className="hidden block font-medium text-gray-900 dark:text-gray-300 mb-3">Show</legend>
+          <div className="flex">
+            <div className="flex items-center me-4">
+              <input checked id="national-radio" type="radio" value="National" name="inline-radio-group" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" />
+              <label htmlFor="national-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">All</label>
+            </div>
+            <div className="flex items-center me-4">
+              <input id="regional-radio" type="radio" value="Regional" name="inline-radio-group" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" />
+              <label htmlFor="regional-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Caught</label>
+            </div>
+            <div className="flex items-center me-4">
+              <input id="collective-radio" type="radio" value="Collective" name="inline-radio-group" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" />
+              <label htmlFor="collective-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Missing</label>
+            </div>
           </div>
-        </div>
-        <Progress captured={pokedex.captured} entries={pokedex.entries} />
-      </div> */}
+        </fieldset>
+      </div>
       <DexHeader pokedex={pokedex} />
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />
       <div className="flex flex-wrap items-center justify-center gap-4">
