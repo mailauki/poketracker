@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import Pokedexes from './Pokedexes'
 import { Dex } from '@/utils/types'
+import DexForm from './DexForm'
 
 export default async function Page({
   params: { username }
@@ -10,6 +11,8 @@ export default async function Page({
 }) {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
+
+  const { data: { session } } = await supabase.auth.getSession()
 
   const { data: pokedexes } = await supabase
   .from('pokedexes')
@@ -30,7 +33,9 @@ export default async function Page({
   .returns<Dex[]>()
 
   return pokedexes && (
-    <Pokedexes serverPokedexes={pokedexes} />
-    // <pre>{JSON.stringify(pokedexes, null, 2)}</pre>
+    <>
+      <Pokedexes serverPokedexes={pokedexes} />
+      {session && session.user.id === pokedexes[0].user_id && <DexForm />}
+    </>
   )
 }

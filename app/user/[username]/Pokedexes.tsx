@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Progress from './Progress'
+import DexHeader from './DexHeader'
 
 export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
@@ -48,11 +49,7 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
           href={`${pathname}/${pokedex.hash}`}
           className="py-2 px-3 flex flex-col items-center rounded-md no-underline hover:bg-btn-background-hover border gap-4 w-full"
         >
-          {pokedex.title}
-          <Progress
-            captured={pokedex.captured}
-            entries={pokedex.entries}
-          />
+          <DexHeader pokedex={pokedex} />
         </Link>
       ))}
     </div>

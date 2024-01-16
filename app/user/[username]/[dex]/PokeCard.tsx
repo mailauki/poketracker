@@ -5,6 +5,7 @@ import { Key, useEffect, useState } from "react"
 import Sprite from "./Sprite"
 import { createClient } from "@/utils/supabase/client"
 import { Session } from '@supabase/supabase-js'
+import { adjustName, padZero } from "@/utils/helpers"
 
 
 export default function PokeCard({
@@ -22,7 +23,7 @@ export default function PokeCard({
     fetch(pokemon.pokemon_species.url)
     .then((res) => res.json())
     .then((data) => setPokemonSpecies(data))
-  }, [])
+  }, [pokemon])
 
   const handleCapturePokemon = async () => {
     const supabase = createClient()
@@ -50,14 +51,15 @@ export default function PokeCard({
 
   return (
     <button
-      className="py-2 px-3 flex flex-col items-center justify-between rounded-md no-underline hover:bg-btn-background-hover border w-36 h-36"
-      style={{ borderColor: isCaptured ? "red" : "inherit" }}
+      className={`py-2 px-3 flex flex-col items-center justify-between rounded-md border ${isCaptured ? "hover:bg-blue-100 dark:hover:bg-blue-900 border-blue-600 hover:border-blue-800 dark:border-blue-500 dark:hover:border-blue-400 bg-blue-50 dark:bg-blue-950" : "hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700"} w-36 h-36`}
       onClick={isCaptured ? handleRemovePokemon : handleCapturePokemon}
       disabled={!session}
     >
-      <p>{pokemon.entry_number} - {pokemon.pokemon_species.name}</p>
-      {pokemonSpecies && <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} />}
-      <p>{pokemonSpecies?.id}</p>
+      <p className="uppercase">{adjustName(pokemon.pokemon_species.name)}</p>
+      {pokemonSpecies && (
+        <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} />
+      )}
+      <p className="text-sm">{padZero(pokemon.entry_number)}</p>
     </button>
   )
 }

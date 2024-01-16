@@ -13,7 +13,7 @@ export default function Progress({ captured, entries } : { captured: number, ent
   }, [captured, entries])
 
   return (
-    <div className="w-full h-8 bg-gray-200 rounded-full dark:bg-gray-700 overflow-auto relative">
+    <div className="w-full h-8 bg-blue-100 rounded-full dark:bg-blue-950 overflow-auto relative">
       <div className="w-full h-8 flex items-center justify-center text-sm text-center absolute">
         <p><b>{progress}%</b> DONE! (<b>{captured}</b> CAUGHT, <b>{entries-captured}</b> TO GO)</p>
       </div>
