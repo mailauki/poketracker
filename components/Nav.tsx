@@ -17,7 +17,7 @@ export default async function Nav() {
   .single()
 
   return (
-    <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 sticky top-0 bg-background">
+    <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 sticky top-0 bg-background z-20">
       <div className="w-full max-w-4xl flex items-center justify-between p-3 text-sm gap-2">
         <div className="flex items-center gap-4">
           <Link
