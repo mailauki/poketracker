@@ -20,9 +20,11 @@ export default function Pokedex({
 }) {
   const supabase = createClient()
   const [pokedex, setPokedex] = useState(serverPokedex)
-  const [pokemonEntries, setPokemonEntries] = useState([])
+  const [pokemonEntries, setPokemonEntries] = useState<Mon[]>([])
   const [capturedPokemon, setCapturedPokemon] = useState(serverCapturedPokemon)
   const [active, setActive] = useState<Key>(pokedex.number)
+  const [caughtToggle, setCaughtToggle] = useState<string>('all')
+  const [filteredEntries, setFilteredEntries] = useState<Mon[]>(pokemonEntries)
 
   useEffect(() => {
     setPokedex(serverPokedex)
@@ -78,17 +80,45 @@ export default function Pokedex({
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokedex/${active}`)
     .then((res) => res.json())
+    .then((data) => setFilteredEntries(data.pokemon_entries))
+  }, [])
+
+  useEffect(() => {
+    fetch(`https://pokeapi.co/api/v2/pokedex/${active}`)
+    .then((res) => res.json())
     .then((data) => setPokemonEntries(data.pokemon_entries))
   }, [active])
+
+  useEffect(() => {
+    const filteredCaught = pokemonEntries.filter((entry) =>
+    capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
+
+    if (caughtToggle === "caught") {
+      console.log(filteredCaught)
+      setFilteredEntries(filteredCaught)
+    } else if (caughtToggle === "missing") {
+    const filteredMissing = pokemonEntries.filter((entry) =>
+    !capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
+      console.log(filteredMissing)
+      setFilteredEntries(filteredMissing)
+    } else {
+      console.log(pokemonEntries)
+      setFilteredEntries(pokemonEntries)
+    }
+  }, [caughtToggle, pokemonEntries])
 
   const handleTabChange = (id: Key) => {
     setActive(id)
   }
 
+  const handleToggleChange = (value: string) => {
+    setCaughtToggle(value)
+  }
+
   return (
     <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
       <div className="w-full flex justify-start">
-        <fieldset className="">
+        {/* <fieldset className="">
           <legend className="hidden block font-medium text-gray-900 dark:text-gray-300 mb-3">Show</legend>
           <div className="flex">
             <div className="flex items-center me-4">
@@ -104,12 +134,50 @@ export default function Pokedex({
               <label htmlFor="collective-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Missing</label>
             </div>
           </div>
-        </fieldset>
+        </fieldset> */}
+        <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400" role="tablist">
+          <li className="me-2">
+            <button
+              className={`inline-block px-4 py-3 rounded-lg ${caughtToggle === "all" ? "text-white bg-blue-600 active" : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"}`}
+              value="all"
+              type="button"
+              role="tab"
+              aria-selected={"all" == caughtToggle}
+              onClick={() => handleToggleChange("all")}
+            >
+              All
+            </button>
+          </li>
+          <li className="me-2">
+            <button
+              className={`inline-block px-4 py-3 rounded-lg ${caughtToggle === "caught" ? "text-white bg-blue-600 active" : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"}`}
+              value="caught"
+              type="button"
+              role="tab"
+              aria-selected={"caught" == caughtToggle}
+              onClick={() => handleToggleChange("caught")}
+            >
+              Caught
+            </button>
+          </li>
+          <li className="me-2">
+            <button
+              className={`inline-block px-4 py-3 rounded-lg ${caughtToggle === "missing" ? "text-white bg-blue-600 active" : "hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"}`}
+              value="missing"
+              type="button"
+              role="tab"
+              aria-selected={"missing" == caughtToggle}
+              onClick={() => handleToggleChange("missing")}
+            >
+              Missing
+            </button>
+          </li>
+        </ul>
       </div>
       <DexHeader pokedex={pokedex} />
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />
       <div className="flex flex-wrap items-center justify-center gap-4">
-        {pokemonEntries.map((pokemon: Mon) => (
+        {filteredEntries.map((pokemon: Mon) => (
           <PokeCard
             key={pokemon.entry_number}
             pokemon={pokemon}
