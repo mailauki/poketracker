@@ -51,15 +51,17 @@ export default function PokeCard({
 
   return (
     <button
-      className={`py-2 px-3 flex flex-col items-center justify-between rounded-md border ${isCaptured ? "hover:bg-blue-100 dark:hover:bg-blue-900 border-blue-600 hover:border-blue-800 dark:border-blue-500 dark:hover:border-blue-400 bg-blue-50 dark:bg-blue-950" : "hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700"} w-36 h-36`}
+      className={`rounded-md border ${isCaptured ? "hover:bg-blue-100 dark:hover:bg-blue-900 border-blue-600 hover:border-blue-800 dark:border-blue-500 dark:hover:border-blue-400 bg-blue-50 dark:bg-blue-950" : "hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700"} w-36 h-36 relative overflow-auto`}
       onClick={isCaptured ? handleRemovePokemon : handleCapturePokemon}
       disabled={!session}
     >
-      <p className="uppercase">{adjustName(pokemon.pokemon_species.name)}</p>
+      <div className="flex flex-col items-center justify-between py-2 px-3 w-full h-full z-1000">
+        <p className="text-sm uppercase">{adjustName(pokemon.pokemon_species.name)}</p>
+        <p className="text-sm">{padZero(pokemon.entry_number)}</p>
+      </div>
       {pokemonSpecies && (
         <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} />
       )}
-      <p className="text-sm">{padZero(pokemon.entry_number)}</p>
     </button>
   )
 }

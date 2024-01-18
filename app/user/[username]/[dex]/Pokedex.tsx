@@ -11,6 +11,7 @@ import PokedexTabs from './PokedexTabs'
 import ShinyIcon from '@/components/ShinyIcon'
 import DexHeader from '../DexHeader'
 import CaughtToggle from './CaughtToggle'
+import Search from './Search'
 
 export default function Pokedex({
   serverPokedex, serverCapturedPokemon, session
@@ -91,19 +92,16 @@ export default function Pokedex({
   }, [active])
 
   useEffect(() => {
-    const filteredCaught = pokemonEntries.filter((entry) =>
-    capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
-
     if (caughtToggle === "caught") {
-      console.log(filteredCaught)
+      const filteredCaught = pokemonEntries.filter((entry) => capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
+
       setFilteredEntries(filteredCaught)
     } else if (caughtToggle === "missing") {
-    const filteredMissing = pokemonEntries.filter((entry) =>
-    !capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
-      console.log(filteredMissing)
+      const filteredMissing = pokemonEntries.filter((entry) =>
+      !capturedPokemon.map((captured) => captured.number).includes(entry.pokemon_species.url.split("/")[6]))
+
       setFilteredEntries(filteredMissing)
     } else {
-      console.log(pokemonEntries)
       setFilteredEntries(pokemonEntries)
     }
   }, [caughtToggle, pokemonEntries])
@@ -118,11 +116,12 @@ export default function Pokedex({
 
   return (
     <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
-      <div className="w-full flex justify-between sticky top-16 py-2 bg-background z-10">
+      <div className="w-full flex justify-between sticky top-16 py-2 gap-4 bg-background z-10">
         <CaughtToggle
           caughtToggle={caughtToggle}
           handleToggleChange={handleToggleChange}
         />
+        <Search />
       </div>
       <DexHeader pokedex={pokedex} />
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />

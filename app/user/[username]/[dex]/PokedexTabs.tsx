@@ -52,7 +52,7 @@ export default function PokedexTabs({
         {pokedexes
         .sort((a: any, b: any) => a.id - b.id)
         .map((tab) => (
-          <li role="presentation">
+          <li key={tab.id} role="presentation">
             <button
               className={`inline-block p-4 border-b-2 rounded-t-lg ${active == tab.id ? "text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" : "text-gray-500 hover:text-gray-600 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:text-gray-300"} uppercase`}
               type="button"

@@ -2,7 +2,7 @@ export default function CaughtToggle({
   caughtToggle, handleToggleChange
 }: {
   caughtToggle: string,
-  handleToggleChange: (string) => void
+  handleToggleChange: (value: string) => void
 }) {
   return (
     <ul className="flex flex-wrap justify-start text-sm font-medium text-center text-gray-500 dark:text-gray-400" role="tablist">
