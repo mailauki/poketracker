@@ -62,3 +62,12 @@ export type PokeTab = {
   name: string,
   entries: number
 }
+
+export type Game = {
+  id: Key,
+  name: string,
+  pokedex: string,
+  entries: number,
+  DLC: boolean,
+  hash: string
+}

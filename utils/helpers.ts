@@ -15,3 +15,7 @@ export function padZero(number: number) {
       return `${number}`
   }
 }
+
+export function hyphenate(title: string) {
+  return title?.replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g,"").toLowerCase().split(" ").join("-") || ""
+}

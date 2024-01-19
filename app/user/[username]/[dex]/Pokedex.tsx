@@ -115,8 +115,8 @@ export default function Pokedex({
   }
 
   return (
-    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
-      <div className="w-full flex justify-between sticky top-16 py-2 gap-4 bg-background z-10">
+    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-3 gap-4">
+      <div className="w-full flex flex-col-reverse md:flex-row justify-between sticky top-16 py-3 gap-4 bg-background z-10">
         <CaughtToggle
           caughtToggle={caughtToggle}
           handleToggleChange={handleToggleChange}
