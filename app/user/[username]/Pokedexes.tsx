@@ -44,19 +44,13 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
   }, [supabase, setPokedexes, pokedexes])
 
   return (
-    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-4">
-      <div className="w-full flex items-center gap-1">
+    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-14">
+      <div className="w-full flex items-center gap-2">
         <h1 className="text-3xl">{`${username}'s` || "Your"} Profile</h1>
         <ShareBtn url={`https://poketracker-one.vercel.app${pathname}`} />
       </div>
       {pokedexes.map((pokedex) => (
-        <Link
-          key={pokedex.id}
-          href={`${pathname}/${pokedex.hash}`}
-          className="py-2 px-3 flex flex-col items-center rounded-md no-underline hover:bg-btn-background-hover border gap-4 w-full"
-        >
-          <DexHeader pokedex={pokedex} />
-        </Link>
+        <DexHeader key={pokedex.id} pokedex={pokedex} />
       ))}
     </div>
   )
