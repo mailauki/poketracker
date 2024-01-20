@@ -34,9 +34,9 @@ export default async function Page({
 
   return pokedexes && (
     <>
-      <Pokedexes serverPokedexes={pokedexes} />
+      <Pokedexes serverPokedexes={pokedexes} session={session} />
       {session && session.user.id === pokedexes[0].user_id && (
-        <DexForm session={session} />
+        <DexForm session={session} pokedex={null} />
       )}
     </>
   )

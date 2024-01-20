@@ -2,14 +2,18 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { Dex } from '@/utils/types'
-import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Progress from './Progress'
 import DexHeader from './DexHeader'
 import ShareBtn from './ShareBtn'
+import { Session } from '@supabase/supabase-js'
 
-export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] }) {
+export default function Pokedexes({
+  serverPokedexes, session
+}: {
+  serverPokedexes: Dex[],
+  session: Session | null
+}) {
   const [pokedexes, setPokedexes] = useState(serverPokedexes)
   const supabase = createClient()
   const pathname = usePathname()
@@ -27,6 +31,13 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
         { event: 'INSERT', schema: 'public', table: 'pokedexes' },
         (payload) => {
           setPokedexes((pokedexes) => [...pokedexes, payload.new as Dex])
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'pokedexes' },
+        (payload) => {
+          setPokedexes((pokedexes) => pokedexes.map((pokedex) => pokedex.id === payload.old.id ? payload.new as Dex : pokedex))
         }
       )
       .on(
@@ -50,7 +61,7 @@ export default function Pokedexes({ serverPokedexes }: { serverPokedexes: Dex[] 
         <ShareBtn url={`https://poketracker-one.vercel.app${pathname}`} />
       </div>
       {pokedexes.map((pokedex) => (
-        <DexHeader key={pokedex.id} pokedex={pokedex} />
+        <DexHeader key={pokedex.id} pokedex={pokedex} session={session} />
       ))}
     </div>
   )
