@@ -55,14 +55,16 @@ export default function Pokedexes({
   }, [supabase, setPokedexes, pokedexes])
 
   return (
-    <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 my-6 gap-14">
-      <div className="w-full flex items-center gap-2">
+    <>
+      <div className="w-full max-w-4xl flex items-center p-3 gap-2">
         <h1 className="text-3xl">{`${username}'s` || "Your"} Profile</h1>
         <ShareBtn url={`https://poketracker-one.vercel.app${pathname}`} />
       </div>
-      {pokedexes.map((pokedex) => (
-        <DexHeader key={pokedex.id} pokedex={pokedex} session={session} />
-      ))}
-    </div>
+      <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 gap-14">
+        {pokedexes.map((pokedex) => (
+          <DexHeader key={pokedex.id} pokedex={pokedex} session={session} />
+        ))}
+      </div>
+    </>
   )
 }

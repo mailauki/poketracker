@@ -19,7 +19,7 @@ export default async function Nav() {
   return (
     <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 sticky top-0 bg-background z-10">
       <div className="w-full max-w-4xl flex items-center justify-between p-3 text-sm gap-2">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-4 overflow-hidden">
           <Link
             href="/"
             className="py-2 px-3 flex rounded-md no-underline hover:bg-btn-background-hover border"
@@ -30,7 +30,7 @@ export default async function Nav() {
             <>
               <Link
                 href={`/user/${profile.username}`}
-                className="py-2 px-3 hidden sm:flex rounded-md no-underline hover:bg-btn-background-hover border"
+                className="py-2 px-3 flex rounded-md no-underline hover:bg-btn-background-hover border"
               >
                 Profile
               </Link>
@@ -43,7 +43,7 @@ export default async function Nav() {
             </>
           }
         </div>
-        {/* <DeployButton /> */}
+
         <AuthButton />
       </div>
     </nav>

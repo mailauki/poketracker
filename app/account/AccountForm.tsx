@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/client"
 import { User } from "@supabase/supabase-js"
 import { useCallback, useEffect, useState } from "react"
+import AvatarForm from "./AvatarForm"
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient()
@@ -66,6 +67,16 @@ export default function AccountForm({ user }: { user: User | null }) {
   
   return (
     <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+      <AvatarForm
+        uid={user!.id}
+        url={avatar_url!}
+        size={150}
+        onUpload={(url) => {
+          setAvatarUrl(url)
+          updateProfile({ username, avatar_url: url })
+        }}
+      />
+
       <label className="text-md" htmlFor="email">Email</label>
       <input
         className="rounded-md px-4 py-2 bg-inherit border mb-6" 

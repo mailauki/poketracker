@@ -34,7 +34,7 @@ export default function Sprite({
   )
 
   return (
-    <div className="absolute inset-0 px-8 py-8">
+    <div className="absolute inset-0 px-2 py-0 sm:px-8 sm:py-8 overflow-hidden">
       {shiny ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -42,7 +42,7 @@ export default function Sprite({
           width={80}
           height={80}
           alt={`pokemon #${id}`}
-          className={isCaptured ? "" : `brightness-0 grayscale invert-0 dark:invert opacity-50`}
+          className={isCaptured ? "" : "brightness-0 grayscale invert-0 dark:invert opacity-50"}
         />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
@@ -51,7 +51,7 @@ export default function Sprite({
           width={80}
           height={80}
           alt={`pokemon #${id}`}
-          className={isCaptured ? "" : `brightness-0 grayscale invert-0 dark:invert opacity-50`}
+          className={isCaptured ? "" : "brightness-0 grayscale invert-0 dark:invert opacity-50"}
         />
       )}
     </div>
