@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import AuthButton from './AuthButton'
-import DeployButton from './DeployButton'
+// import DeployButton from './DeployButton'
 
 export default async function Nav() {
   const cookieStore = cookies()

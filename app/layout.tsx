@@ -1,6 +1,7 @@
-import { GeistSans } from 'geist/font/sans'
-import './globals.css'
-import Nav from '@/components/Nav'
+import { GeistSans } from "geist/font/sans"
+import "./globals.css"
+import React from "react"
+import Nav from "@/components/Nav"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

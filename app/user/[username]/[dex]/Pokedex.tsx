@@ -5,10 +5,7 @@ import { Captured, Dex, Mon } from '@/utils/types'
 import { Key, useEffect, useState } from 'react'
 import PokeCard from './PokeCard'
 import { Session } from '@supabase/supabase-js'
-import Progress from '../Progress'
-import { adjustName } from '@/utils/helpers'
 import PokedexTabs from './PokedexTabs'
-import ShinyIcon from '@/components/ShinyIcon'
 import DexHeader from '../DexHeader'
 import CaughtToggle from './CaughtToggle'
 import Search from './Search'
@@ -83,7 +80,7 @@ export default function Pokedex({
     fetch(`https://pokeapi.co/api/v2/pokedex/${active}`)
     .then((res) => res.json())
     .then((data) => setFilteredEntries(data.pokemon_entries))
-  }, [])
+  }, [active])
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokedex/${active}`)
@@ -104,7 +101,7 @@ export default function Pokedex({
     } else {
       setFilteredEntries(pokemonEntries)
     }
-  }, [caughtToggle, pokemonEntries])
+  }, [capturedPokemon, caughtToggle, pokemonEntries])
 
   const handleTabChange = (id: Key) => {
     setActive(id)
@@ -123,7 +120,7 @@ export default function Pokedex({
         />
         <Search />
       </div>
-      <DexHeader pokedex={pokedex} />
+      <DexHeader pokedex={pokedex} session={session} />
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />
       <div className="flex flex-wrap items-center justify-center gap-4">
         {filteredEntries.map((pokemon: Mon) => (

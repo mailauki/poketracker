@@ -1,9 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Pokedex from './Pokedex'
-import { Captured, Dex } from '@/utils/types'
+import { Captured } from '@/utils/types'
 
 export default async function Page({
   params: { username, dex }
@@ -53,5 +52,4 @@ export default async function Page({
       session={session}
     />
   )
-  // return <pre>{JSON.stringify(capturedPokemon, null, 2)}</pre>
 }

@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
+import AccountForm from './AccountForm'
 
 export default async function Page() {
   const cookieStore = cookies()
@@ -8,13 +9,13 @@ export default async function Page() {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: profile } = await supabase
-  .from('profiles')
-  .select()
-  .eq('id', user?.id)
-  .single()
-
   // const { data: { session } } = await supabase.auth.getSession()
+
+  // const { data: profile } = await supabase
+  // .from('profiles')
+  // .select()
+  // .eq('id', user?.id)
+  // .single()
 
   // return <pre>{JSON.stringify(profile, null, 2)}</pre>
   return (
@@ -40,7 +41,7 @@ export default async function Page() {
         Back
       </Link>
 
-      <form
+      {/* <form
         className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
         // action={signIn}
       >
@@ -53,20 +54,18 @@ export default async function Page() {
           placeholder="you@example.com"
           required
         />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
+        <label htmlFor="username">Username</label>
         <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
+          id="username"
+          type="text"
+          // value={username || ''}
+          // onChange={(e) => setUsername(e.target.value)}
         />
         <button className="bg-blue-600 rounded-md px-4 py-2 text-foreground mb-2">
           Sign In
         </button>
-      </form>
+      </form> */}
+      <AccountForm user={user} />
     </div>
   )
 }

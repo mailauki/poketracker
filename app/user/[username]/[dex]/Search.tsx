@@ -22,7 +22,6 @@ export default function Search() {
           <XMarkIcon className="w-5 h-5" aria-hidden="true" />
           <span className="sr-only">Clear</span>
         </button>
-        {/* <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button> */}
       </div>
   </form>
   )

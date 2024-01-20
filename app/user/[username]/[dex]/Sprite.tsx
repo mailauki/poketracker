@@ -1,10 +1,16 @@
 'use client'
 
-import { Species, Sprites } from "@/utils/types"
-import Image from "next/image"
+import { Sprites } from "@/utils/types"
+// import Image from "next/image"
 import { Key, useEffect, useState } from "react"
 
-export default function Sprite({ id, shiny }: { id: Key, shiny: boolean }) {
+export default function Sprite({
+  id, shiny, isCaptured
+}: {
+  id: Key,
+  shiny: boolean,
+  isCaptured: boolean
+}) {
   const [sprites, setSprites] = useState<Sprites>()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -30,18 +36,22 @@ export default function Sprite({ id, shiny }: { id: Key, shiny: boolean }) {
   return (
     <div className="absolute inset-0 px-8 py-8">
       {shiny ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={sprites?.front_shiny || ""}
           width={80}
           height={80}
           alt={`pokemon #${id}`}
+          className={isCaptured ? "" : `brightness-0 grayscale invert-0 dark:invert opacity-50`}
         />
       ) : (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={sprites?.front_default || ""}
           width={80}
           height={80}
           alt={`pokemon #${id}`}
+          className={isCaptured ? "" : `brightness-0 grayscale invert-0 dark:invert opacity-50`}
         />
       )}
     </div>

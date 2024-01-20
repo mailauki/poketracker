@@ -1,14 +1,13 @@
 'use client'
 
-import { useEffect, useState } from "react"
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline"
+import { useCallback, useEffect, useState } from "react"
+import { ChevronUpDownIcon } from "@heroicons/react/24/outline"
 import { createClient } from "@/utils/supabase/client"
 import { Dex, Game } from "@/utils/types"
 import { PencilIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { hyphenate } from "@/utils/helpers"
 import { Session } from "@supabase/supabase-js"
 import { useParams } from "next/navigation"
-// import { cookies } from "next/headers"
 
 export default function DexForm({
   pokedex, session
@@ -41,7 +40,7 @@ export default function DexForm({
     getGames()
   }, [])
 
-  const handleType = () => {
+  const handleType = useCallback(() => {
     switch (true) {
       case national:
         setType("National")
@@ -56,11 +55,11 @@ export default function DexForm({
         setType("Regional")
         break;
     }
-  }
+  }, [collective, national, regional])
 
   useEffect(() => {
     handleType()
-  }, [type, national, regional, collective])
+  }, [type, national, regional, collective, handleType])
 
   const handleCreateDex = async () => {
     // console.log('add', {

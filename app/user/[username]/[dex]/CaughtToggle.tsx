@@ -2,6 +2,7 @@ export default function CaughtToggle({
   caughtToggle, handleToggleChange
 }: {
   caughtToggle: string,
+  // eslint-disable-next-line no-unused-vars
   handleToggleChange: (value: string) => void
 }) {
   return (

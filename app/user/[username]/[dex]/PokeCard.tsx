@@ -1,7 +1,7 @@
 'use client'
 
 import { Captured, Dex, Mon, Species } from "@/utils/types"
-import { Key, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Sprite from "./Sprite"
 import { createClient } from "@/utils/supabase/client"
 import { Session } from '@supabase/supabase-js'
@@ -28,25 +28,37 @@ export default function PokeCard({
   const handleCapturePokemon = async () => {
     const supabase = createClient()
 
-    const { data: pokemon } = await supabase
+    try {
+      const { error } = await supabase
     .from('captured_pokemon')
     .insert({ number: pokemonSpecies!.id, pokedex: pokedex.id, user_id: session?.user.id })
     .select()
-    .returns<Captured>()
-    .single()
-  
-    const { data } = await supabase.rpc('increment_pokedexes', { row_id: pokedex.id })
+    // .returns<Captured>()
+    // .single()
+
+      if (error) throw error
+    } catch (e) {
+      throw new Error('Error adding the data!')
+    } finally {
+      await supabase.rpc('increment_pokedexes', { row_id: pokedex.id })
+    }
   }
 
   const handleRemovePokemon = async () => {
     const supabase = createClient()
-  
-    const { error } = await supabase
-    .from('captured_pokemon')
-    .delete()
-    .match({ id: isCaptured?.id, user_id: session?.user.id })
-  
-    const { data } = await supabase.rpc('decrement_pokedexes', { row_id: pokedex.id })
+
+    try {
+      const { error } = await supabase
+      .from('captured_pokemon')
+      .delete()
+      .match({ id: isCaptured?.id, user_id: session?.user.id })
+
+      if (error) throw error
+    } catch (e) {
+      throw new Error('Error adding the data!')
+    } finally {
+      await supabase.rpc('decrement_pokedexes', { row_id: pokedex.id })
+    }
   }
 
   return (
@@ -60,7 +72,7 @@ export default function PokeCard({
         <p className="text-sm">{padZero(pokemon.entry_number)}</p>
       </div>
       {pokemonSpecies && (
-        <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} />
+        <Sprite id={pokemonSpecies.id} shiny={pokedex.shiny || false} isCaptured={isCaptured ? true : false} />
       )}
     </button>
   )
