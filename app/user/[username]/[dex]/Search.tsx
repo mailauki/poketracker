@@ -1,6 +1,12 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { ChangeEventHandler } from "react";
 
-export default function Search() {
+export default function Search({
+  keyword, handleSearchChange,
+}: {
+  keyword: string,
+  // eslint-disable-next-line no-unused-vars
+  handleSearchChange: ChangeEventHandler<HTMLInputElement>
+}) {
   return (
     <form className="grow">   
       <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -17,11 +23,9 @@ export default function Search() {
           id="default-search"
           className="block w-full ps-10 rounded-md px-4 py-2 bg-inherit border"
           placeholder="Search name, number..."
+					value={keyword}
+					onChange={handleSearchChange}
         />
-        <button type="button" className="absolute end-2 top-1 text-gray-400 bg-transparent hover:text-gray-900 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-900" data-modal-hide="default-modal">
-          <XMarkIcon className="w-5 h-5" aria-hidden="true" />
-          <span className="sr-only">Clear</span>
-        </button>
       </div>
   </form>
   )

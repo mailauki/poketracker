@@ -62,19 +62,6 @@ export default function DexForm({
   }, [type, national, regional, collective, handleType])
 
   const handleCreateDex = async () => {
-    // console.log('add', {
-    //   title: title || "Living Dex",
-    //   game: selectedGame,
-    //   type,
-    //   shiny,
-    //   user_id: session?.user.id,
-    //   username,
-    //   captured: 0,
-    //   entries: games.find(game => game.hash === selectedGame)?.entries,
-    //   number: games.find(game => game.hash === selectedGame)?.pokedex || "1",
-    //   hash: hyphenate(title) || "living-dex"
-    // })
-
     const supabase = createClient()
   
     try {
@@ -102,19 +89,6 @@ export default function DexForm({
   }
 
   const handleEditDex = async () => {
-    // console.log('edit', {
-    //   title: title || "Living Dex",
-    //   game: selectedGame,
-    //   type,
-    //   shiny,
-    //   user_id: session?.user.id,
-    //   username,
-    //   captured: 0,
-    //   entries: games.find(game => game.hash === selectedGame)?.entries,
-    //   number: games.find(game => game.hash === selectedGame)?.pokedex || "1",
-    //   hash: hyphenate(title) || "living-dex"
-    // })
-
     const supabase = createClient()
   
     try {
@@ -173,7 +147,7 @@ export default function DexForm({
         </button>
       ) : (
         <button
-          className="w-2/4 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-6"
+          className="w-2/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-6"
           type="button"
           onClick={() => setOpen(true)}
         >

@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { Captured, Dex, Mon } from '@/utils/types'
-import { Key, useEffect, useState } from 'react'
+import { Key, SetStateAction, useEffect, useState } from 'react'
 import PokeCard from './PokeCard'
 import { Session } from '@supabase/supabase-js'
 import PokedexTabs from './PokedexTabs'
@@ -22,8 +22,10 @@ export default function Pokedex({
   const [pokemonEntries, setPokemonEntries] = useState<Mon[]>([])
   const [capturedPokemon, setCapturedPokemon] = useState(serverCapturedPokemon)
   const [active, setActive] = useState<Key>(pokedex.number)
-  const [caughtToggle, setCaughtToggle] = useState<string>('all')
+  const [caughtToggle, setCaughtToggle] = useState<string>("all")
   const [filteredEntries, setFilteredEntries] = useState<Mon[]>(pokemonEntries)
+	const [keyword, setKeyword] = useState<string>("")
+	const [searchEntries, setSearchEntries] = useState<Mon[]>(filteredEntries)
 
   useEffect(() => {
     setPokedex(serverPokedex)
@@ -103,6 +105,15 @@ export default function Pokedex({
     }
   }, [capturedPokemon, caughtToggle, pokemonEntries])
 
+	useEffect(() => {
+		if (keyword) {
+			const searchFiltered = filteredEntries.filter((entry) => entry.pokemon_species.name.includes(keyword.toLowerCase()) || String(entry.entry_number).includes(keyword) || entry.pokemon_species.url.split("/")[6].includes(keyword))
+			setSearchEntries(searchFiltered)
+		} else {
+			setSearchEntries(filteredEntries)
+		}
+	}, [filteredEntries, keyword])
+
   const handleTabChange = (id: Key) => {
     setActive(id)
   }
@@ -111,6 +122,10 @@ export default function Pokedex({
     setCaughtToggle(value)
   }
 
+	const handleSearchChange = (event: { target: { value: SetStateAction<string> } }) => {
+		setKeyword(event.target.value)
+	}
+
   return (
     <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 gap-4">
       <div className="w-full flex flex-col-reverse md:flex-row justify-between sticky top-16 py-3 gap-4 bg-background z-10">
@@ -118,20 +133,30 @@ export default function Pokedex({
           caughtToggle={caughtToggle}
           handleToggleChange={handleToggleChange}
         />
-        <Search />
+        <Search
+					keyword={keyword}
+					handleSearchChange={handleSearchChange}
+				/>
       </div>
       <DexHeader pokedex={pokedex} session={session} />
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />
       <div className="flex flex-wrap items-center justify-center gap-4">
-        {filteredEntries.map((pokemon: Mon) => (
-          <PokeCard
-            key={pokemon.entry_number}
-            pokemon={pokemon}
-            pokedex={pokedex}
-            captured={capturedPokemon}
-            session={session}
-          />
-        ))}
+        {searchEntries && searchEntries.length !== 0 ? (
+					searchEntries.map((pokemon: Mon) => (
+						<PokeCard
+							key={pokemon.entry_number}
+							pokemon={pokemon}
+							pokedex={pokedex}
+							captured={capturedPokemon}
+							session={session}
+						/>
+					))
+				) : (
+					<div className="flex flex-col justify-center items-center">
+						<p className="text-2xl">No Pokemon Found</p>
+						<p className="text-gray-500">Try clearing the search or switching between pokedexes.</p>
+					</div>
+				)}
       </div>
     </div>
   )

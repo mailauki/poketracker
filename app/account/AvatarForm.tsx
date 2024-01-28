@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { createClient } from '@/utils/supabase/client'
@@ -90,7 +91,11 @@ export default function AvatarForm({
         )}
       </div>
       <div className="flex justify-center">
-        <label className="py-2 px-3 flex justify-center rounded-md hover:bg-btn-background-hover border border-blue-600" htmlFor="single" style={{ width: size }}>
+        <label
+					className="text-white border border-blue-700 hover:bg-btn-background-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md px-3 py-2 text-center dark:border-blue-600 dark:hover:border-blue-700 dark:focus:ring-blue-800"
+					htmlFor="single"
+					style={{ width: size }}
+				>
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>
         <input
