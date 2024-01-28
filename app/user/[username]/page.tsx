@@ -3,6 +3,20 @@ import { cookies } from 'next/headers'
 import Pokedexes from './Pokedexes'
 import { Dex } from '@/utils/types'
 import DexForm from './DexForm'
+import { Metadata } from 'next'
+
+type Props = {
+  params: { username: string }
+}
+
+export async function generateMetadata(
+  { params }: Props): Promise<Metadata> {
+	const { username } = params
+
+  return {
+    title: `${username}'s Profile` || 'Profile',
+  }
+}
 
 export default async function Page({
   params: { username }

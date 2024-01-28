@@ -2,6 +2,10 @@ import { headers, cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
+export const metadata = {
+  title: 'Login'
+}
+
 export default function Login({
   searchParams,
 }: {
