@@ -92,7 +92,7 @@ export default function AvatarForm({
       </div>
       <div className="flex justify-center">
         <label
-					className="text-white border border-blue-700 hover:bg-btn-background-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md px-3 py-2 text-center dark:border-blue-600 dark:hover:border-blue-700 dark:focus:ring-blue-800"
+					className="text-foreground border border-blue-700 hover:bg-btn-background-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md px-3 py-2 text-center dark:border-blue-600 dark:hover:border-blue-700 dark:focus:ring-blue-800 mb-3"
 					htmlFor="single"
 					style={{ width: size }}
 				>

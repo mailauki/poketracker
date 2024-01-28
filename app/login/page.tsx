@@ -52,9 +52,9 @@ export default function Login({
   }
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <div className="flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <form
-        className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
+        className="animate-in flex flex-col w-full justify-center gap-2 text-foreground"
         action={signIn}
       >
         <label className="text-md" htmlFor="email">
