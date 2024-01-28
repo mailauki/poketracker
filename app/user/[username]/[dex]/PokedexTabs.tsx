@@ -70,6 +70,13 @@ export default function PokedexTabs({
     getPokedexTabs()
   }, [pokedex.number, pokedex.type])
 
+	if (!pokedexes || pokedexes.length === 0) return (
+		<div
+			className="rounded-md w-full h-14 relative overflow-auto animate-pulse bg-gray-200 dark:bg-gray-700"
+			role="status"
+		></div>
+	)
+
   return (
     <div className="w-full flex items-center justify-between mb-4 border-b border-gray-200 dark:border-gray-700">
       <ul className="flex grow -mb-px text-sm font-medium text-center overflow-x-auto overscroll-x-contain" role="tablist">

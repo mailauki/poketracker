@@ -126,6 +126,11 @@ export default function Pokedex({
 		setKeyword(event.target.value)
 	}
 
+	// if (!pokemonEntries) return <Loading />
+	// console.log(pokemonEntries)
+	const loadingArray = Array.from(new Array(10)).map((_, index) => index)
+	// console.log(loadingArray)
+
   return (
     <div className="w-full max-w-4xl flex flex-col items-center justify-center p-3 gap-4">
       <div className="w-full flex flex-col-reverse md:flex-row justify-between sticky top-16 py-3 gap-4 bg-background z-10">
@@ -138,26 +143,41 @@ export default function Pokedex({
 					handleSearchChange={handleSearchChange}
 				/>
       </div>
+
       <DexHeader pokedex={pokedex} session={session} />
+
       <PokedexTabs pokedex={pokedex} active={active} handleTabChange={handleTabChange} />
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {searchEntries && searchEntries.length !== 0 ? (
-					searchEntries.map((pokemon: Mon) => (
-						<PokeCard
-							key={pokemon.entry_number}
-							pokemon={pokemon}
-							pokedex={pokedex}
-							captured={capturedPokemon}
-							session={session}
-						/>
-					))
-				) : (
-					<div className="flex flex-col justify-center items-center">
-						<p className="text-2xl">No Pokemon Found</p>
-						<p className="text-gray-500">Try clearing the search or switching between pokedexes.</p>
-					</div>
-				)}
-      </div>
+			
+      {pokemonEntries && pokemonEntries.length !== 0 ? (
+				<div className="flex flex-wrap items-center justify-center gap-4">
+					{searchEntries && searchEntries.length !== 0 ? (
+						searchEntries.map((pokemon: Mon) => (
+							<PokeCard
+								key={pokemon.entry_number}
+								pokemon={pokemon}
+								pokedex={pokedex}
+								captured={capturedPokemon}
+								session={session}
+							/>
+						))
+					) : (
+						<div className="flex flex-col justify-center items-center">
+							<p className="text-2xl">No Pokemon Found</p>
+							<p className="text-gray-500">Try clearing the search or switching between pokedexes.</p>
+						</div>
+					)}
+				</div>
+			) : (
+				<div className="flex flex-wrap items-center justify-center gap-4">
+					{loadingArray.map((index) => (
+						<div
+							key={index}
+							className="rounded-md border hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700 w-full h-20 sm:w-36 sm:h-36 relative overflow-auto animate-pulse  bg-gray-200 dark:bg-gray-700"
+							role="status"
+						></div>
+					))}
+				</div>
+			)}
     </div>
   )
 }

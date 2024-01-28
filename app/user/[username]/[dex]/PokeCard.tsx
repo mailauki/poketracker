@@ -61,6 +61,13 @@ export default function PokeCard({
     }
   }
 
+	if(!pokemonSpecies) return (
+		<div
+			className="rounded-md border hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700 w-full h-20 sm:w-36 sm:h-36 relative overflow-auto animate-pulse  bg-gray-200 dark:bg-gray-700"
+			role="status"
+		></div>
+	)
+
   return (
     <button
       className={`rounded-md border ${isCaptured ? "hover:bg-blue-100 dark:hover:bg-blue-900 border-blue-600 hover:border-blue-800 dark:border-blue-500 dark:hover:border-blue-400 bg-blue-50 dark:bg-blue-950" : "hover:bg-btn-background-hover border-gray-300 hover:border-gray-400 dark:border-gray-700"} w-full h-20 sm:w-36 sm:h-36 relative overflow-auto`}

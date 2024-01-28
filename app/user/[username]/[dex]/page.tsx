@@ -38,12 +38,14 @@ export default async function Page({
     notFound()
   }
 
-  const { data: capturedPokemon } = await supabase
+  const { data: capturedPokemon, status } = await supabase
   .from('captured_pokemon')
   .select()
   .eq('pokedex', pokedex.id)
   .eq('user_id', pokedex.user_id)
   .returns<Captured[]>()
+
+	console.log({status})
 
   return (
     <Pokedex
