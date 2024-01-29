@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import AccountForm from './AccountForm'
+import { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Account'
 }
 

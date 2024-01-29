@@ -9,8 +9,7 @@ type Props = {
   params: { username: string }
 }
 
-export async function generateMetadata(
-  { params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { username } = params
 
   return {

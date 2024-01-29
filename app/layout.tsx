@@ -2,18 +2,34 @@ import { GeistSans } from "geist/font/sans"
 import "./globals.css"
 import React from "react"
 import Nav from "@/components/Nav"
+import { Metadata } from "next"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000'
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: {
 		template: '%s | PokéTracker',
 		default: 'PokéTracker'
 	},
-  description: 'Pokedex tracker using PokeApi and NextJs',
+  description: 'Pokédex tracker using PokeApi and NextJs',
+	icons: {
+		icon: [
+      { url: '/pokeball-light.png', },
+      { url: '/pokeball-dark.png', media: '(prefers-color-scheme: dark)' },
+    ],
+    shortcut: '/favicon.ico',
+		apple: [
+      { url: '/pokeball-light.png', },
+      { url: '/pokeball-dark.png', media: '(prefers-color-scheme: dark)' },
+    ],
+    other: {
+      rel: 'apple-touch-icon',
+      url: '/apple-touch-icon.png',
+    }
+	}
 }
 
 export default function RootLayout({
