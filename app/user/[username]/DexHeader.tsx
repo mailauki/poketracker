@@ -1,7 +1,7 @@
 import { adjustName } from "@/utils/helpers"
 import { Dex } from "@/utils/types"
 import Progress from "./Progress"
-import ShinyIcon from "@/components/ShinyIcon"
+import ShinyIcon from "@/app/components/ShinyIcon"
 import { useParams, usePathname } from "next/navigation"
 import ShareBtn from "./ShareBtn"
 import { Session } from "@supabase/supabase-js"

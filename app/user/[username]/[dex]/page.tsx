@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import Pokedex from './Pokedex'
 import { Captured } from '@/utils/types'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 type Props = {
   params: { username: string, dex: string }
